@@ -1,0 +1,45 @@
+[project]
+name = "etf-holdings-pipeline"
+version = "0.1.0"
+description = "Compliance-gated daily collector for public ETF holdings disclosures"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx",
+    "protego",
+    "pydantic",
+    "pydantic-settings",
+    "pyyaml",
+    "sqlalchemy",
+    "alembic",
+    "psycopg[binary]",
+    "typer",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "respx", "ruff", "mypy", "types-pyyaml"]
+
+[project.scripts]
+etf-pipeline = "etf_pipeline.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/etf_pipeline"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "src"
